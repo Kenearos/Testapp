@@ -117,10 +117,29 @@ Der Spike demonstriert das Grundprinzip der Agenten-Orchestrierung mit reinem Py
 python3 spike/concept_spike.py
 ```
 
-### Vollständige App starten
+### Photo-to-Listing-Prototyp (end-to-end)
 
 ```bash
-python3 -m src.agents.orchestrator
+# Vollständige Demo im deterministischen Mock-Modus (kein Netz nötig)
+python3 spike/prototype.py --mock
+
+# Mit echtem Produktfoto über den authentifizierten claude-CLI
+python3 spike/prototype.py --image /pfad/zum/foto.jpg --live
+
+# Nur maschinenlesbares JSON-Ergebnis
+python3 spike/prototype.py --mock --json
+```
+
+### Orchestrator direkt aufrufen
+
+```bash
+python3 -m src.agents.orchestrator --description "gebrauchte Bluetooth-Kopfhörer"
+```
+
+### Tests
+
+```bash
+python3 -m unittest discover -s tests -v
 ```
 
 ---
@@ -129,14 +148,20 @@ python3 -m src.agents.orchestrator
 
 | Phase | Status | Beschreibung |
 |---|---|---|
-| Grundgerüst | ✅ Fertig | Projektstruktur, Basisklassen, Dateigerüst |
-| Concept Spike | ✅ Fertig | Orchestrator-Pattern ohne externe Abhängigkeiten |
-| Bildanalyse-Agent | 🔄 In Arbeit | Integration eines Vision-Modells |
-| Preis-Recherche-Agent | 📋 Geplant | eBay Sold Listings + Marktdaten |
-| Listing-Erstellung-Agent | 📋 Geplant | LLM-basierte Textgenerierung |
-| Chat-Moderation-Agent | 📋 Geplant | Automatische Antworten |
-| eBay API-Integration | 📋 Geplant | Trading API / Listing-Upload |
-| Tests & CI | 📋 Geplant | Pytest-Suite, GitHub Actions |
+| Grundgerüst | ✅ Fertig | Projektstruktur, BMAD-Basisklasse, Datenmodelle |
+| Concept Spike + Prototyp | ✅ Fertig | `spike/prototype.py` — Photo-to-Listing end-to-end |
+| Bildanalyse-Agent | ✅ Fertig (v0.1) | Live über `claude -p` (Vision), deterministischer Mock-Fallback |
+| Preis-Recherche-Agent | ✅ Fertig (v0.1) | Modell-Schätzung (Live) / Kategorie-Heuristik (Mock) |
+| Listing-Erstellung-Agent | ✅ Fertig (v0.1) | Titel/Beschreibung/Kategorie/Attribute |
+| Chat-Moderation-Agent | ✅ Fertig (v0.1) | FAQ-Antworten + Eskalation |
+| Tests | ✅ Fertig | 28 `unittest`-Tests (Stdlib, offline deterministisch) |
+| eBay API-Integration | 📋 Geplant | Trading API / Listing-Upload, echte Preisrecherche |
+| CI | 📋 Geplant | GitHub Actions |
+
+> **v0.1-Hinweis:** Der Prototyp läuft Stdlib-only. LLM-Agenten nutzen den lokal
+> authentifizierten `claude`-CLI (`claude -p`) statt eines API-Keys im Code; ohne
+> CLI/Netz schalten alle Agenten automatisch auf einen deterministischen Mock um.
+> Details: [`docs/agent_specs.md`](docs/agent_specs.md).
 
 ---
 
