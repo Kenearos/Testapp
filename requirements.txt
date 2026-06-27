@@ -1,0 +1,20 @@
+# eBay-Auto-Lister – Abhängigkeiten (Starter, Versionen beim ersten Pin festlegen)
+#
+# Der Spike (spike/concept_spike.py) und die Agenten-Stubs laufen bewusst NUR
+# mit der Python-Standardbibliothek. Die folgenden Pakete werden erst benötigt,
+# sobald echte Implementierungen die Stubs ersetzen.
+
+# --- LLM / Agenten ---
+# anthropic            # Claude-Modelle (Bildanalyse, Listing-Texte, Chat-Moderation)
+
+# --- API-Layer (src/api) ---
+# fastapi
+# uvicorn[standard]
+# pydantic
+
+# --- Preis-Recherche / Scraper (src/scrapers) ---
+# httpx
+# beautifulsoup4
+
+# --- Tests ---
+# pytest
